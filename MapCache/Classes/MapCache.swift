@@ -11,16 +11,16 @@ import MapKit
 
 /// The real brain
 public class MapCache : MapCacheProtocol {
-    
+
     public var config : MapCacheConfig
     public var diskCache : DiskCache
     let operationQueue = OperationQueue()
-    
+
     public init(withConfig config: MapCacheConfig ) {
         self.config = config
         diskCache = DiskCache(withName: config.cacheName, capacity: config.capacity)
     }
-    
+
     public func url(forTilePath path: MKTileOverlayPath) -> URL {
         //print("CachedTileOverlay:: url() urlTemplate: \(urlTemplate)")
         var urlString = config.urlTemplate.replacingOccurrences(of: "{z}", with: String(path.z))
@@ -30,16 +30,16 @@ public class MapCache : MapCacheProtocol {
         print("MapCache::url() urlString: \(urlString)")
         return URL(string: urlString)!
     }
-    
+
     public func cacheKey(forPath path: MKTileOverlayPath) -> String {
         return "\(config.urlTemplate)-\(path.x)-\(path.y)-\(path.z)"
     }
-    
+
     public func loadTile(at path: MKTileOverlayPath, result: @escaping (Data?, Error?) -> Void) {
         // Use cache
         // is the file alread in the system?
         let key = cacheKey(forPath: path)
-        
+
         let loadTileFromOrigin = { () -> () in
             let url = self.url(forTilePath: path)
             print ("MapCache::loadTile() url=\(url)")
@@ -59,7 +59,7 @@ public class MapCache : MapCacheProtocol {
             }
             task.resume()
         }
-        
+
         // If fetching data from cache is successfull => return the data
         let fetchSuccess = {(data: Data) -> () in
             print ("MapCache::loadTile() found! cacheKey=\(key)" )
@@ -73,19 +73,23 @@ public class MapCache : MapCacheProtocol {
         // Fetch the data. Current thread is not main thread.
         diskCache.fetchDataSync(forKey: key, failure: fetchFailure, success: fetchSuccess)
     }
-    
+
     public var diskSize: UInt64 {
         get  {
             return diskCache.diskSize
         }
     }
-    
+
     public func calculateDiskSize() -> UInt64 {
         return diskCache.calculateDiskSize()
     }
-    
+
+    public func calculateDiskSize(withName cacheName: String) -> UInt64 {
+        return diskCache.calculateDiskSize(withName: cacheName)
+    }
+
     public func clear(completition: (() -> ())? ) {
         diskCache.removeAllData(completition)
     }
-    
+
 }
