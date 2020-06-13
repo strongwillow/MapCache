@@ -84,10 +84,6 @@ public class MapCache : MapCacheProtocol {
         return diskCache.calculateDiskSize()
     }
 
-    public func calculateDiskSize(withName cacheName: String) -> UInt64 {
-        return diskCache.calculateDiskSize(withName: cacheName)
-    }
-
     public func clear(completition: (() -> ())? ) {
         diskCache.removeAllData(completition)
     }

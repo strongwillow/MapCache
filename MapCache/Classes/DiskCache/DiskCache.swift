@@ -191,17 +191,17 @@ open class DiskCache {
         })
     }
     
-    public func calculateDiskSize(withName cacheName: String) -> UInt64 {
+    public static func calculateDiskSize(withName cacheName: String) -> UInt64 {
         let folderURL = DiskCache.baseURL().appendingPathComponent(cacheName, isDirectory: true)
         return calculateFolderSize(url: folderURL)
     }
     
     public func calculateDiskSize() -> UInt64 {
-        return calculateFolderSize(url: folderURL)
+        return DiskCache.calculateFolderSize(url: folderURL)
     }
     
     // MARK: Private
-    fileprivate func calculateFolderSize(url folderURL: URL) -> UInt64 {
+    fileprivate static func calculateFolderSize(url folderURL: URL) -> UInt64 {
         let fileManager = FileManager.default
         var currentSize : UInt64 = 0
         do {
