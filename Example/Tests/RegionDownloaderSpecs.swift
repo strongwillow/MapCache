@@ -18,7 +18,7 @@ class MapCacheMock : MapCacheProtocol {
     
     /// It is not being used but It is required by the protocol.
     func url(forTilePath path: MKTileOverlayPath) -> URL {
-        return URL(fileURLWithPath: "http://mapcache.github.io∫")
+        return URL(fileURLWithPath: "http://mapcache.github.io/")
     }
     
     public var config: MapCacheConfig = MapCacheConfig()
@@ -103,7 +103,7 @@ class RegionDownloaderSpecs: QuickSpec {
                 let delegate = DelegateTest()
                 downloader.delegate = delegate
                 downloader.start()
-                expect(delegate.finished).toEventually(beTrue(), timeout: 10)
+                expect(delegate.finished).toEventually(beTrue(), timeout: .seconds(10))
 
             }
         }
