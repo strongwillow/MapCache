@@ -59,10 +59,6 @@ open class MapCache : MapCacheProtocol {
         Log.debug(message: "MapCache::url() urlString: \(urlString)")
         return URL(string: urlString)!
     }
-
-    public func cacheKey(forPath path: MKTileOverlayPath) -> String {
-        return "\(config.urlTemplate)-\(path.x)-\(path.y)-\(path.z)"
-    }
     
     /// For the path passed as argument it creates a unique key to be used in `DiskCache`.
     ///
