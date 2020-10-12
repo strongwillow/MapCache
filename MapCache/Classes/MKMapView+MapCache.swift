@@ -22,7 +22,7 @@ extension MKMapView {
     public func useCache(_ cache: MapCacheProtocol) -> CachedTileOverlay {
 
         let tileServerOverlay = CachedTileOverlay(withCache: cache)
-        tileServerOverlay.canReplaceMapContent = true
+        tileServerOverlay.canReplaceMapContent = false
 
         // Don't set `maximumZ` when wanting "over zooming".
         // TileOverlay will stop trying in zoom levels beyond `maximumZ`.
