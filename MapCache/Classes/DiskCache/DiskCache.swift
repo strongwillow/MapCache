@@ -212,6 +212,15 @@ open class DiskCache {
         })
     }
     
+    public static func removeCache(withName cacheName: String) {
+        let folderURL = DiskCache.baseURL().appendingPathComponent(cacheName, isDirectory: true)
+        do {
+            try FileManager.default.removeItem(at: folderURL)
+        } catch {
+            Log.error(message: "Diskcache::removeCache --- Error removing DiskCache folder", error: error)
+        }
+    }
+    
     public static func calculateDiskSize(withName cacheName: String) -> UInt64 {
         let folderURL = DiskCache.baseURL().appendingPathComponent(cacheName, isDirectory: true)
         return calculateFolderSize(url: folderURL)
